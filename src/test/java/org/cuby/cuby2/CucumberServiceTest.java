@@ -24,7 +24,9 @@ public class CucumberServiceTest {
         for (int i = 1; i <= 10; i++) {
             cucumbers.add(new Cucumber(i, 0.1));
         }
+
         final Flux<Cucumber> flux = Flux.fromIterable(cucumbers).log();
+
         StepVerifier.create(service.groupByVolume(flux, 19.8, 20.2, 0.1))
                 .expectNextMatches(p -> p.getCucumbers().size() == 6)
                 .expectNextMatches(p -> p.getCucumbers().size() == 4)

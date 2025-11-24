@@ -22,10 +22,8 @@ public class CucumberService {
     int minVolume;
     int restLimit;
 
-    public CucumberService(JarProperties props) {
-        int maxVolume = props.getMaxVolume();
-        int minVolume = props.getMinVolume();
-        int restLimit = props.getRestLimit();
+    public CucumberService() {
+
     }
 
     public Flux<Jar> groupByVolume(Flux<Cucumber> cucumbers,
@@ -39,10 +37,10 @@ public class CucumberService {
 
             return cucumbers.<Jar>handle((cucumber, sink) -> {
 
-
                 final double res = currentJar.add(cucumber);
                 if (res != 0) {
                     sink.next(currentJar);
+                    currentJar = new Jar(minVolume, maxVolume);
                     currentJar.add(new Cucumber(restLimit, res));
                 }
 

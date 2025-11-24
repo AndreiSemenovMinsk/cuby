@@ -38,7 +38,7 @@ public class Jar {
                 //кончик поместился
                 volume += addingVolume;
                 cucumbers.add(cucumber);
-                return addingVolume;
+                return cucumberVolume - rate;
             }
             return -1;
         } else {
