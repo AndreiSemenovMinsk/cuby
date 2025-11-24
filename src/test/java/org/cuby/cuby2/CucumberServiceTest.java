@@ -22,20 +22,20 @@ public class CucumberServiceTest {
 
         List<Cucumber> cucumbers = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
-            cucumbers.add(new Cucumber(i));
+            cucumbers.add(new Cucumber(i, 0.1));
         }
         final Flux<Cucumber> flux = Flux.fromIterable(cucumbers).log();
         StepVerifier.create(service.groupByVolume(flux, 19.8, 20.2, 0.1))
-                .expectNextMatches(p -> p.size() == 6)
-                .expectNextMatches(p -> p.size() == 4)
-                .expectNextMatches(p -> p.size() == 2)
+                .expectNextMatches(p -> p.getCucumbers().size() == 6)
+                .expectNextMatches(p -> p.getCucumbers().size() == 4)
+                .expectNextMatches(p -> p.getCucumbers().size() == 2)
                 .verifyComplete();
 
         StepVerifier.create(service.groupByVolume(flux, 15.1, 15.4, 0.1))
-                .expectNextMatches(p -> p.size() == 6)
-                .expectNextMatches(p -> p.size() == 3)
-                .expectNextMatches(p -> p.size() == 3)
-                .expectNextMatches(p -> p.size() == 1)
+                .expectNextMatches(p -> p.getCucumbers().size() == 6)
+                .expectNextMatches(p -> p.getCucumbers().size() == 3)
+                .expectNextMatches(p -> p.getCucumbers().size() == 3)
+                .expectNextMatches(p -> p.getCucumbers().size() == 1)
                 .verifyComplete();
     }
 }

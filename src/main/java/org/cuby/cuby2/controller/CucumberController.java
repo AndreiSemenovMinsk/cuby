@@ -27,12 +27,6 @@ public class CucumberController {
     @PostMapping("/make_jars")
     public Flux<Jar> process(@RequestBody Flux<Cucumber> cucumbers, JarProperties props) {
 
-        int maxVolume = props.getMaxVolume();
-        int minVolume = props.getMinVolume();
-        int restLimit = props.getRestLimit();
 
-        return service.groupByVolume(cucumbers, minVolume, maxVolume, restLimit)
-                .map(service::makeJar)
-                .onBackpressureBuffer();   // защита при медленном потребителе
     }
 }
