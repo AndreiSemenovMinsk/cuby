@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+app:
+  jar:
+    max-volume: 3
+    min-volume: 8
+    rest-limit: 0.2

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: cuby-2
+
+app:
+  jar:
+    max-volume: 5
+    min-volume: 9
+    rest-limit: 0.1
