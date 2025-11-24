@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class CucumberService {
 
     public Jar makeJar(List<Cucumber> cucumbers) {
-        // если хочешь — можно проверить, что size == 5
         return new Jar(cucumbers);
     }
 
@@ -29,9 +28,6 @@ public class CucumberService {
         return Flux.defer(() -> {
             List<Cucumber> bucket = new ArrayList<>();
             MutableDouble currentVolume = new MutableDouble(0);
-
-            boolean fullCucumber = false;
-            double restCucumber = 0;
 
             return cucumbers.<List<Cucumber>>handle((cucumber, sink) -> {
 
@@ -52,7 +48,6 @@ public class CucumberService {
                     }
                     sink.next(List.copyOf(bucket));
 
-                    // начинаем новую банку
                     bucket.clear();
 
                     if (cutCucumber) {
@@ -67,7 +62,6 @@ public class CucumberService {
                     }
                 }
             }).concatWith(Mono.defer(() -> {
-                // когда поток закончится — не забудем отдать последнюю банку
                 if (!bucket.isEmpty()) {
                     return Mono.just(List.copyOf(bucket));
                 }
