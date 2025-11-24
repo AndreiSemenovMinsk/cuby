@@ -5,9 +5,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.cuby.cuby2.model.Cucumber;
 import org.cuby.cuby2.model.Jar;
@@ -38,9 +36,6 @@ public class CucumberService {
             return cucumbers.<List<Cucumber>>handle((cucumber, sink) -> {
 
                 double newVolume = currentVolume.get() + cucumber.getVolume();
-
-                System.out.println("cucumber.getVolume()+++++" + cucumber.getVolume() );
-
                 double jarVolume = ThreadLocalRandom.current().nextDouble(minVolume, maxVolume);
 
                 if (newVolume <= jarVolume) {
@@ -48,13 +43,8 @@ public class CucumberService {
                     bucket.add(cucumber);
                     currentVolume.add(cucumber.getVolume());
                 } else {
-
-                    System.out.println("newVolume***" + newVolume + " jarVolume " + jarVolume);
-
                     boolean cutCucumber = false;
                     double beginCucumber = jarVolume - currentVolume.get();
-
-                    System.out.println("beginCucumber = " + beginCucumber + " > " + restLimit);
 
                     if (beginCucumber > restLimit) {
                         bucket.add(new Cucumber(beginCucumber));
@@ -62,16 +52,11 @@ public class CucumberService {
                     }
                     sink.next(List.copyOf(bucket));
 
-                    System.out.println("bucket.size()------" + bucket.size());
-
                     // начинаем новую банку
                     bucket.clear();
 
                     if (cutCucumber) {
                         double rest = newVolume - jarVolume;
-
-                        System.out.println("cutCucumber rest = " + rest);
-
                         if (rest > restLimit) {
                             bucket.add(new Cucumber(rest));
                             currentVolume.set(rest);
