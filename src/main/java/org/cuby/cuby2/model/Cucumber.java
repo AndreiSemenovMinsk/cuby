@@ -13,25 +13,17 @@ public class Cucumber {
     private double limit;
     private double volume;
 
-    public double tryFull(double rate) {
-        if (rate > volume) {
-            return rate;
+    public double tryWhole(double gauge) {
+        if (gauge > volume) {
+            return gauge;
         }
         return 0;
     }
 
-    public double getBegin(double rate) {
-        if (limit > rate) {
+    public double getBegin(double gauge) {
+        if (limit > gauge) {
             return 0;
         }
-        return rate;
+        return gauge;
     }
-
-    public double getEnd(double rate) {
-        if (volume - rate > limit) {
-            return volume - rate;
-        }
-        return 0;
-    }
-
 }

@@ -1,9 +1,7 @@
 package org.cuby.cuby2.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,21 +22,21 @@ public class Jar {
     @NonNull
     private List<Cucumber> cucumbers;
 
-    public double add(Cucumber cucumber) {
+    public double push(Cucumber cucumber) {
 
-        double rate = capacity - volume;
+        double gauge = capacity - volume;
 
-        double cucumberVolume = cucumber.tryFull(rate);
+        double cucumberVolume = cucumber.tryWhole(gauge);
 
         if (cucumberVolume == 0) {
             //не всунули
 
-            double addingVolume = cucumber.getBegin(rate);
+            double addingVolume = cucumber.getBegin(gauge);
             if (addingVolume > 0) {
                 //кончик поместился
                 volume += addingVolume;
                 cucumbers.add(cucumber);
-                return cucumberVolume - rate;
+                return cucumberVolume - gauge;
             }
             return -1;
         } else {
